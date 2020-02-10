@@ -1,0 +1,29 @@
+[{
+        "id": 1,
+        "name": "罗伯特",
+        "skill": "飞起来",
+        "icon": "/imgs/盖伦.png",
+        "isDelete": false
+    },
+    {
+        "id": 2,
+        "name": "许文good",
+        "skill": "叼一根牙签",
+        "icon": "uploads\\ee8243edaf6671640d7250488f85a765",
+        "isDelete": false
+    },
+    {
+        "id": 3,
+        "name": "许homegood",
+        "skill": "liaogirl",
+        "icon": "uploads\\578ae7418bd9a2265198616a821a60d3",
+        "isDelete": false
+    },
+    {
+        "id": 4,
+        "name": "丑丑是猪",
+        "skill": "旺旺旺",
+        "icon": "uploads\\8ebfa4eae8642fc726057b336e72f25f",
+        "isDelete": false
+    }
+]
