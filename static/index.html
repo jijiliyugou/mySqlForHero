@@ -178,16 +178,34 @@
   {{/each}}
 </script>
 <script>
-  $(function () {
+  function getHeroList(id) {
     $.ajax({
-      method: 'get',
-      url: '/list',
+      url: '/delete',
+      data: {
+        id
+      },
       success: (data) => {
         if (data.code === 200) {
-          const html = template('heroList', data)
-          $('tbody').html(html)
+          getDataList()
         }
       }
     })
+
+  }
+  $(function () {
+    function getDataList() {
+      $.ajax({
+        method: 'get',
+        url: '/list',
+        success: (data) => {
+          if (data.code === 200) {
+            const html = template('heroList', data)
+            $('tbody').html(html)
+          }
+        }
+      })
+    }
+    window.getDataList = getDataList
+    getDataList()
   })
 </script>
