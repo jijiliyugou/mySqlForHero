@@ -5,7 +5,7 @@ const db = require(path.join(__dirname, "./utils/db.js"));
 const bodyParser = require("body-parser");
 const express = require("express");
 var multer = require("multer");
-var upload = multer({ dest: "uploads/" });
+var upload = multer({ dest: "static/" });
 const app = express();
 app.use(express.static("static"));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,7 +27,7 @@ app.get("/list", (req, res) => {
 });
 // 新增英雄
 app.post("/add", upload.single("icon"), (req, res) => {
-  const icon = req.file.path;
+  const icon = req.file.filename;
   const { name, skill } = req.body;
   db.addHero({
     icon,
@@ -91,7 +91,7 @@ app.get("/search", (req, res) => {
 });
 // 编辑英雄
 app.post("/edit", upload.single("icon"), (req, res) => {
-  const icon = req.file.path;
+  const icon = req.file.filename;
   const { name, skill, id } = req.body;
   db.editHero({
     id,
