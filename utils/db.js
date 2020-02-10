@@ -32,7 +32,7 @@ const connection = mysql.createConnection({
 
 module.exports = {
     // 获取所有数据
-    getHerosc(callBack) {
+    getHeros(callBack) {
         // 链接数据库
         // connection.connect();
         // 查询功能语句
@@ -61,7 +61,7 @@ module.exports = {
         //  connection.end();
     },
     // 根据id获取数据
-    addHeroById({ id, callBack }) {
+    getHeroById({ id, callBack }) {
         // 链接数据库
         // connection.connect();
         // 查询功能语句
