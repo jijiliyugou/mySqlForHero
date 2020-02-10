@@ -86,52 +86,19 @@
         </div>
       </div>
     </nav>
-
-
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="panel panel-default">
-              <div class="panel-heading clearfix">
-                  <div class="row">
-                  <div class="col-md-6 page-title">英雄信息修改</div>
-                  <div class="col-md-6 text-right">当前位置：首页 &gt; 英雄信息修改</div>
-                </div>
-                </div>
+            <div class="panel-heading clearfix">
+              <div class="row">
+                <div class="col-md-6 page-title">英雄信息修改</div>
+                <div class="col-md-6 text-right">当前位置：首页 &gt; 英雄信息修改</div>
+              </div>
+            </div>
             <div class="panel-body">
               <form action="#" method="" class="form-horizontal">
-                <!-- 隐藏一个input -->
-                <input type="hidden" name="id" />
-                <div class="form-group">
-                  <label for="heroName" class="col-sm-2 control-label">姓名</label>
-                  <div class="col-sm-10">
-                    <input required type="text" class="form-control" id="heroName" name="heroName"
-                      placeholder="请输入姓名" value="盖伦" />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="skillName" class="col-sm-2 control-label">技能</label>
-                  <div class="col-sm-10">
-                    <input required type="text" class="form-control" id="skillName" name="skillName"
-                      placeholder="请输入技能" value="躲草丛" />
-                  </div>
-                </div>
-                <div class="form-group">                 
-                  <label for="heroIcon" class="col-sm-2 control-label">头像</label>
-                  <div class="col-sm-10">
-                    <img src="./imgs/盖伦.png" class='preview' alt="">
-                    <input required type="file" class="file-input" id="heroIcon" name="heroIcon" />
-                  
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-primary btn-save">
-                      保存
-                    </button>
-                    <button type="button" class="btn btn-cancel">取消</button>
-                  </div>
-                </div>
+
               </form>
             </div>
           </div>
@@ -144,7 +111,83 @@
 </html>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="./lib/bootstrap/js/jquery-1.12.4.js"></script>
+<script src="./lib/js/template-web.js"></script>
 <!--
   Include all compiled plugins (below), or include individual files as needed
 -->
 <script src="./lib/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/html" id="editHeroList">
+  {{each data}}
+  <!-- 隐藏一个input -->
+  <input type="hidden" name="id" value="{{$value.id}}" />
+  <div class="form-group">
+    <label for="heroName" class="col-sm-2 control-label">姓名</label>
+    <div class="col-sm-10">
+      <input required type="text" class="form-control" id="heroName" name="name" placeholder="请输入姓名"
+        value="{{$value.name}}" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="skillName" class="col-sm-2 control-label">技能</label>
+    <div class="col-sm-10">
+      <input required type="text" class="form-control" id="skillName" name="skill" placeholder="请输入技能"
+        value="{{$value.skill}}" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="heroIcon" class="col-sm-2 control-label">头像</label>
+    <div class="col-sm-10">
+      <img src="{{$value.icon}}" class='preview' alt="">
+      <input type="file" value="{{$value.icon}}" class="file-input" id="heroIcon" name="icon" />
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="button" class="btn btn-primary btn-save">
+        保存
+      </button>
+      <button type="button" class="btn btn-cancel">取消</button>
+    </div>
+  </div>
+  {{/each}}
+</script>
+<script>
+  $(function () {
+    const id = location.search.split('=')[1]
+    // 进来先获取数据
+    $.ajax({
+      method: 'get',
+      url: '/search',
+      data: {
+        id
+      },
+      success: (data) => {
+        if (data.code === 200) {
+          const html = template('editHeroList', data)
+          $('form').html(html)
+        }
+      }
+    })
+    // 给图片添加预览功能
+    $('form').on('change', 'input[type=file]', function () {
+      const url = URL.createObjectURL(this.files[0])
+      $(this).prev('img').attr('src', url)
+    })
+    // 按编辑确定按钮编辑数据发送请求
+    $('form').on('click', 'button.btn-save', function () {
+      const formData = new FormData($('form')[0])
+      $.ajax({
+        method: 'post',
+        url: '/edit',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: (data) => {
+          if (data.code === 200) {
+            location = './index.html'
+          }
+        }
+      })
+    })
+  })
+</script>
