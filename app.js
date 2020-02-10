@@ -7,8 +7,8 @@ const express = require("express");
 var multer = require("multer");
 var upload = multer({ dest: "uploads/" });
 const app = express();
+app.use(express.static("static"));
 app.use(bodyParser.urlencoded({ extended: false }));
-
 //运用跨域的中间件
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); //自定义中间件，设置跨域需要的响应头。
